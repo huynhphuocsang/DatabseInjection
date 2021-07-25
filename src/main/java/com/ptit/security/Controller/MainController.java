@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +44,27 @@ public class MainController {
 		
 		
 		return "signin"; 
+	}
+	
+	
+	@PostMapping("/signin")
+	public String postSignin(@RequestParam String username, @RequestParam String password,ModelMap map) {
+		
+		List<User> list = userService.signIn(username,password); 
+		
+		if(list==null || list.size()>1) {
+			map.addAttribute("fail", true); 
+			map.addAttribute("list", list);
+			return "signin";
+		}
+		
+		if(list.size()==1) {
+			if(list.get(0).getPassword().equals(password))
+			return "redirect:/admin"; 
+		}
+		
+		
+		return "signin";
 	}
 	
 	@GetMapping("/checkSignin")

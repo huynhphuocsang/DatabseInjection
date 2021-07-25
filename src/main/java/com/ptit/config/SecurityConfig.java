@@ -13,31 +13,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.ptit.service.CustomUserDetailService;
 
+
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 		@Autowired
 		CustomUserDetailService customUserDetailService; 
-	
-//	 	@Bean
-//	    public PasswordEncoder passwordEncoder() {
-//	        return new BCryptPasswordEncoder();
-//	    }
-		
-		//khong encode
+
 		@Bean
 		public static NoOpPasswordEncoder passwordEncoder() {
 		  return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 		}
+//		@Bean
+//		public PasswordEncoder passwordEncoder() {
+//			return new BCryptPasswordEncoder(); 
+//		}
+		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests()
-			.antMatchers("/home","/signup","/css/**").permitAll()
-			.anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll()
+			.antMatchers("/home","/signup","/css/**").permitAll();
+//			.anyRequest().authenticated().and().formLogin().loginPage("/signin").permitAll();
 //			.defaultSuccessUrl("/admin")
 //			.failureUrl("/checkSignin?fail=true")
-//			.loginProcessingUrl("/check-login");  //phai trung voi ben form.
+//			.loginProcessingUrl("/check-login"); 
+			
+			
 			
 		}
 		

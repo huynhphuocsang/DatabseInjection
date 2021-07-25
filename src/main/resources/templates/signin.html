@@ -20,7 +20,7 @@
 	<div class="container-fluid ">
 		<div class="row middle-form">
 			<div class="col-md-6">
-				<form th:action="@{/check-login}" method="post">
+				<form th:action="@{/signin}" method="post">
 					<div class="form-group">
 						<label for="username">Username</label> <input type="text"
 							class="form-control" id="username" aria-describedby="emailHelp" name="username"
@@ -41,6 +41,28 @@
 					<a th:href="@{/signup}" style="text-decoration: none">Bạn
 						chưa có tài khoản? Đăng ký</a>
 				</form>
+			</div>
+			
+			
+			<div class="col-md-6">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+
+							<th></th>
+							<th></th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="emp :${list}">
+	
+							<td th:utext="${emp.username}"></td>
+							<td th:utext="${emp.password}"></td>
+
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

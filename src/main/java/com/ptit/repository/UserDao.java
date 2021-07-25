@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,26 +30,26 @@ public class UserDao {
 	GetConnection getConnection = new GetConnection(); 
 	Connection conn = getConnection.getConnection(); 
 	
-	public boolean signIn(String username, String password) {
+	public List<User> signIn(String username, String password) {
 
-		String sql0 = "select * from applicationdomain.users where username = ?";
+		String sql0 = "select * from applicationdomain.users where username = "+username;
 		PreparedStatement pstt0;
+		List<User> list = new ArrayList<>(); 
 		try {
 			pstt0 = conn.prepareStatement(sql0);
-			pstt0.setString(1, username);
+			
 			ResultSet rs = pstt0.executeQuery();
-			if(rs.next()) {
-//				if(AES.decrypt(rs.getString(3), secretKey).equals(password)) {
-			if(rs.getString(3).equals(password)) {
-					return true; 
-				}
-				
+			while(rs.next()) {
+				User user = new User(rs.getString(2), rs.getString(3));
+				list.add(user); 	
 			}
+			return list; 
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return false; 
+		
+		return null; 
 	}
 	
 	public boolean signUp(String username, String password) {
@@ -68,8 +70,9 @@ public class UserDao {
 		}
 		
 		if(checkExist==false) {
-//			String passwordEncrypt = AES.encrypt(password, secretKey);
-//			String passwordEncrypt =BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+
+//			String passwordEncrypt =BCrypt.hashpw(password, BCrypt.gensalt(12)); 
 			String passwordEncrypt =password; 
 			String sql = "INSERT INTO applicationdomain.users (username, password) VALUES (?, ?)";
 			PreparedStatement pstt;
